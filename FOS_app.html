@@ -938,6 +938,13 @@ textarea.fi{resize:vertical;min-height:80px}
   <div class="sb-foot">
     <div class="sync-row"><div class="sync-dot ok" id="sync-dot"></div><span id="sync-lbl">Local storage</span></div>
     <button class="btn btn-sm" style="width:100%;margin-bottom:6px" onclick="exportAllData()">⬇ Export backup</button>
+    <div style="display:flex;gap:8px;justify-content:center;padding-top:4px;border-top:1px solid var(--border);margin-top:4px">
+      <a href="FOS_landing.html" target="_blank" style="font-size:10px;color:var(--text3);text-decoration:none;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Home</a>
+      <span style="font-size:10px;color:var(--border2)">·</span>
+      <a href="FOS_privacy.html" target="_blank" style="font-size:10px;color:var(--text3);text-decoration:none;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Privacy</a>
+      <span style="font-size:10px;color:var(--border2)">·</span>
+      <a href="FOS_terms.html" target="_blank" style="font-size:10px;color:var(--text3);text-decoration:none;opacity:.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">Terms</a>
+    </div>
   </div>
 </div>
 
@@ -2260,8 +2267,8 @@ textarea.fi{resize:vertical;min-height:80px}
           <ul class="checklist" id="setup-checklist">
             <li><input type="checkbox" id="chk1" onchange="updateChecklist()"><label for="chk1"><strong>Open FOS_app.html in your browser</strong> — drag the file into Chrome, Firefox, Safari, or Edge. It works immediately — no installation, no account, no setup.</label></li>
             <li><input type="checkbox" id="chk2" onchange="updateChecklist()"><label for="chk2"><strong>Go to Settings → enter your name and income</strong> — set your gross and net annual income so budget calculations are accurate.</label></li>
-            <li><input type="checkbox" id="chk3" onchange="updateChecklist()"><label for="chk3"><strong>Create a Google Sheet</strong> — go to <a href="https://sheets.google.com" target="_blank">sheets.google.com</a>, create a blank spreadsheet, name it "My Finances". Copy the Sheet ID from the URL (the long string between /d/ and /edit).</label></li>
-            <li><input type="checkbox" id="chk4" onchange="updateChecklist()"><label for="chk4"><strong>Get a Google API Key</strong> — go to <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a> → New Project → APIs & Services → Enable Google Sheets API → Credentials → Create API Key. Copy it.</label></li>
+            <li><input type="checkbox" id="chk3" onchange="updateChecklist()"><label for="chk3"><strong>Add your accounts</strong> — go to <a onclick="nav('accounts')">Accounts</a> and add every account you have: checking, savings, retirement, credit cards, and loans. This is the foundation everything else builds on.</label></li>
+            <li><input type="checkbox" id="chk4" onchange="updateChecklist()"><label for="chk4"><strong>Create your envelopes</strong> — go to <a onclick="nav('envelopes')">Envelopes</a> and create one envelope per spending category: Rent, Groceries, Car, Dining, Savings. Set a monthly amount for each.</label></li>
             <li><input type="checkbox" id="chk5" onchange="updateChecklist()"><label for="chk5"><strong>Export your first backup</strong> — go to Settings → Export data. Save the file somewhere safe — Google Drive, Dropbox, or your desktop. Do this regularly.</label></li>
             <li><input type="checkbox" id="chk6" onchange="updateChecklist()"><label for="chk6"><strong>Add your envelopes</strong> — go to Envelopes, click "+ New envelope". Create one envelope per budget category linked to the right account. Then go to Paycheck Allocator and run your first allocation.</label></li>
             <li><input type="checkbox" id="chk7" onchange="updateChecklist()"><label for="chk7"><strong>Add your accounts</strong> — go to Accounts, click "+ New account". Add each checking, savings, HYSA, retirement, HSA, and debt account. When you create a transaction account, the app will ask for your current balance to set the opening balance.</label></li>
@@ -3090,7 +3097,7 @@ function buildNWDashChart() {
   if (!ctx) return;
   S.charts['nw-dash'] = new Chart(ctx,{
     type:'line',
-    data:{labels:log.map(e=>fmtDate(e.date)),datasets:[{data:log.map(e=>e.value),borderColor:'#1a73e8',backgroundColor:'rgba(26,115,232,.08)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#1a73e8'}]},
+    data:{labels:log.map(e=>fmtDate(e.date)),datasets:[{data:log.map(e=>e.value),borderColor:'var(--blue)',backgroundColor:'rgba(67,56,202,.08)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#4338CA'}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw,0)}}},scales:{y:{ticks:{callback:v=>fmt(v,0)},grid:{color:'rgba(0,0,0,.05)'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}
   });
 }
@@ -3510,7 +3517,7 @@ function renderNetWorth() {
   if(ctxNW&&logSorted.length>1){
     S.charts['nw']=new Chart(ctxNW,{
       type:'line',
-      data:{labels:logSorted.map(e=>fmtDate(e.date)),datasets:[{label:'Net Worth',data:logSorted.map(e=>e.value),borderColor:'#1a73e8',backgroundColor:'rgba(26,115,232,.07)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:'#1a73e8'}]},
+      data:{labels:logSorted.map(e=>fmtDate(e.date)),datasets:[{label:'Net Worth',data:logSorted.map(e=>e.value),borderColor:'#1a73e8',backgroundColor:'rgba(26,115,232,.07)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:'#4338CA'}]},
       options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw,0)}}},scales:{y:{ticks:{callback:v=>fmt(v,0)},grid:{color:'rgba(0,0,0,.05)'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}
     });
   }
@@ -4203,7 +4210,7 @@ function saveManualBalances(){
     if(lastDate!==today){
       mConfirm('Balances updated! Log today\'s net worth of ' + fmt(nw,0) + '?\n\nThis keeps your trend chart up to date.', function(){
         openAddNWLog();
-      }
+      });
     }
   },400);
 }
@@ -4627,6 +4634,8 @@ function detectEnvironment() {
   // Production URLs
   var isProd = (
     host.endsWith('.pages.dev') ||
+    host.endsWith('.github.io') ||
+    host.endsWith('getfos.app') ||
     host.endsWith('mpfos.com') ||
     host.endsWith('myfinanceos.com') ||
     host.endsWith('mypersonalfinanceos.com')
@@ -4785,6 +4794,7 @@ function clearAllDevData() {
   setTimeout(function(){
     window.location.reload();
   }, 500);
+  });
 }
 
 // Keyboard shortcuts
@@ -4832,7 +4842,7 @@ window.addEventListener('load', function() {
 // ── App config ───────────────────────────────────────────────────
 var FOS_CONFIG = {
   version:        'v1.0',
-  feedbackEmail:  'hello@getfos.app',
+  feedbackEmail:  'andrewvondra@gmail.com',
   sentryDSN:      '',  // Set this to your Sentry DSN when ready
   sentryEnabled:  true,
   errorSampleRate: 1.0
@@ -5154,7 +5164,7 @@ function showSheetPrompt() {
   banner.innerHTML = '<div style="font-weight:700;margin-bottom:6px;color:var(--amber-txt)">⚠ Protect your data</div>'
     + '<div style="color:var(--text2);margin-bottom:12px;line-height:1.5">Your data lives in this browser. Export a backup so you never lose it if you clear your browser or switch devices.</div>'
     + '<div style="display:flex;gap:8px">'
-    + '<button class="btn btn-primary" style="flex:1;font-size:11px" onclick="exportData();document.getElementById(\'sheet-nag-banner\').remove()">Export backup</button>'
+    + '<button class="btn btn-primary" style="flex:1;font-size:11px" onclick="exportAllData();document.getElementById(\'sheet-nag-banner\').remove()">Export backup</button>'
     + '<button class="btn" style="font-size:11px" onclick="document.getElementById(\'sheet-nag-banner\').remove()">Later</button>'
     + '</div>';
 
@@ -5263,11 +5273,12 @@ function loadErrorLog() {
 
 function clearErrorLog() {
   mConfirm('Clear all ' + ERR_LOG.length + ' log entries?', function(){
-  ERR_LOG = [];
-  localStorage.removeItem('fos_errlog');
-  updateErrorBadge();
-  renderDebug();
-});
+    ERR_LOG = [];
+    localStorage.removeItem('fos_errlog');
+    updateErrorBadge();
+    renderDebug();
+  });
+}
 
 // ── Render error screen ──────────────────────────────────────────
 function renderDebug() {
@@ -8609,35 +8620,75 @@ QUICK_HELP['benefits'] = {
 var TOUR_STEP = 0;
 var TOUR_SLIDES = [
   {
-    icon: "📝",
-    title: "The Register — your transaction log",
-    body: "Every dollar in and out gets logged here. FOS keeps a running balance for each account automatically — just like a checkbook, but smarter.<br><br>You can search, filter by account or month, mark transactions as cleared, and reconcile against your bank statement. At month-end, close the month to archive and process your budget.",
-    tip: "Tip: Click any transaction row to edit it. Use the CSV export to back up your register anytime."
-  },
-  {
-    icon: "📦",
-    title: "Envelopes + Budget — every dollar has a job",
-    body: "Envelope budgeting assigns money to categories <em>before</em> you spend it. Each envelope has a monthly amount and a running balance.<br><br>When you get paid, the Paycheck Allocator splits your take-home across envelopes. When you spend, tag the transaction to an envelope — its balance decreases. You always know exactly how much is left in each category.",
-    tip: "Tip: Envelopes can rollover (savings goals) or reset to zero each month (fixed bills). Set this per envelope."
-  },
-  {
-    icon: "📊",
-    title: "Net Worth — your complete financial picture",
-    body: "All your accounts in one place — checking, savings, retirement, debt. FOS calculates net worth automatically from transaction accounts, and you update investment and debt accounts manually.<br><br>Log a net worth entry periodically to track your trend over time.",
-    tip: "Tip: After updating manual account balances (retirement, loans), log a net worth entry to keep your trend chart current."
+    icon: "🏠",
+    title: "The Dashboard — your financial command center",
+    body: "The Dashboard is where you start every session. It shows your net worth, monthly surplus, savings rate, recent transactions, and envelope status — all at a glance.<br><br>When you are brand new, it shows setup cards for each section. As you fill things in, it upgrades to health metrics showing how each part of your finances is performing.",
+    tip: "The Dashboard updates live as you add accounts, transactions, and envelopes. The more you set up, the smarter it gets.",
+    screen: "dashboard"
   },
   {
     icon: "🏦",
-    title: "Planning tools — retirement, portfolio, benefits",
-    body: "When you are ready, FOS has deeper tools: Monte Carlo retirement projections, portfolio tracking with gain/loss and dividends, health plan comparison, 401k optimizer, FIRE calculator, and more.<br><br>These work best once your core accounts and income are set up — they pull from your real numbers.",
-    tip: "Tip: These screens are fully optional. Start with Register and Envelopes. Add planning tools when you want them."
+    title: "Accounts — the foundation of everything",
+    body: "Accounts are your first stop. Add every account you have — checking, savings, HYSA, retirement, credit cards, loans.<br><br><strong>Transaction accounts</strong> (checking, savings) calculate their balance automatically from your register.<br><strong>Manual accounts</strong> (retirement, HSA, investment) you update periodically when balances change.<br><strong>Debt accounts</strong> (loans, credit cards) show negative in net worth so you see the full picture.",
+    tip: "You do not need real account numbers — just a nickname like 'Chase Checking' is enough. Add all your accounts first, then everything else connects to them.",
+    screen: "accounts"
   },
   {
-    icon: "🔒",
-    title: "Your data — private by design",
-    body: "FOS stores everything in your browser's local storage. Nothing is sent to any server. Export your data regularly from Settings to keep a backup. Your financial data never leaves your device.<br><br>Each section has a setup wizard on the dashboard. Set up as much or as little as you like, and change anything later.",
-    tip: "Ready? The dashboard has setup cards for each section. Work through them at your own pace — nothing is required upfront.",
-    isLast: true
+    icon: "📝",
+    title: "Register — every dollar in and out",
+    body: "The Register is your transaction log — like a checkbook, but smarter. Every deposit and expense goes here, tagged to an account and optionally an envelope.<br><br>FOS calculates your running balance automatically. At month-end you can reconcile against your bank statement to make sure nothing is missing.<br><br>You can import transactions directly from a bank CSV — go to Register → Import CSV after adding your accounts.",
+    tip: "Tag transactions to envelopes as you enter them. That is what makes the budget section work — envelopes only track spending if transactions are tagged.",
+    screen: "register"
+  },
+  {
+    icon: "📦",
+    title: "Envelopes — every dollar has a job",
+    body: "Envelope budgeting is the most effective budgeting method that exists. The idea: assign every dollar of income to a specific purpose <em>before</em> you spend it.<br><br>Create envelopes for each category — Rent, Groceries, Car, Dining, Savings. When you get paid, the Paycheck Allocator splits your take-home across them. When you spend, tag the transaction. The envelope balance decreases. When it hits zero, you stop — or you consciously move money from another envelope.",
+    tip: "Start with 6-10 envelopes for your biggest categories. You can always add more later. Envelopes can rollover each month (savings goals) or reset to zero (bills).",
+    screen: "envelopes"
+  },
+  {
+    icon: "💌",
+    title: "Paycheck Allocator — pay yourself first",
+    body: "Every time you get paid, the Allocator splits your take-home across your envelopes in one step. Enter the amount, select the account it landed in, and FOS suggests a split based on your monthly envelope budgets.<br><br>Adjust any envelope, watch the unallocated balance tick toward zero, then hit Apply. The deposit logs to your register and every envelope is funded simultaneously.",
+    tip: "The goal is zero unallocated dollars after every paycheck. Every dollar should have a destination. If you have money left over, put it into savings or debt payoff.",
+    screen: "allocator"
+  },
+  {
+    icon: "📊",
+    title: "Net Worth — are you actually building wealth?",
+    body: "Net worth is the only number that tells you whether your financial life is moving in the right direction. Income and spending tell you the short story. Net worth tells you the long one.<br><br>FOS calculates it from all your accounts automatically — assets minus liabilities. Log an entry periodically and FOS builds a trend chart over time so you can see progress month over month.",
+    tip: "Your retirement and investment accounts are your biggest net worth drivers long-term. Connect them as manual accounts and update them monthly to keep the trend accurate.",
+    screen: "networth"
+  },
+  {
+    icon: "🏖️",
+    title: "Retirement Planner — the math most people never run",
+    body: "The Retirement screen runs Monte Carlo simulations — thousands of scenarios — to show you the probability-weighted range of retirement outcomes based on your real numbers.<br><br>It includes a FIRE calculator, 2025 contribution limits, a contribution priority stack (401k match → HSA → IRA → taxable), and Roth conversion analysis. These work best once your income and account balances are set up.",
+    tip: "The retirement planner pulls your actual account balances and income from Settings. Set those up first and the projections become accurate to your real situation.",
+    screen: "retirement"
+  },
+  {
+    icon: "🎯",
+    title: "Goals — saving with a target date",
+    body: "Vague savings intentions fail. Goals turn 'I should save more' into 'I need $340/month to hit $8,000 by October.'<br><br>Create goals with a target amount and date. Link them to an account or envelope. FOS calculates the monthly contribution needed and shows a progress bar. You will find it surprisingly motivating.",
+    tip: "Link your emergency fund, down payment, and vacation goals to specific savings envelopes. When the envelope balance matches the goal target, you are done.",
+    screen: "goals"
+  },
+  {
+    icon: "💊",
+    title: "Benefits & Decisions — run the numbers you usually guess at",
+    body: "Open enrollment, 401k decisions, and loan comparisons can be worth thousands of dollars — but most people just guess. FOS has calculators for all of them.<br><br>Compare two health plans side by side (premiums, deductibles, break-even point). Optimize your 401k contribution to capture full employer match. Compare HSA vs FSA. Model whether paying off debt beats investing the same dollar.",
+    tip: "The health plan comparator alone is worth the setup. Most people pick the same plan they had last year. Running the numbers often shows the other plan is cheaper for their actual usage.",
+    screen: "benefits"
+  },
+  {
+    icon: "💾",
+    title: "Your data — local, private, and yours",
+    body: "Everything you enter stays in your browser's local storage. Nothing is sent to any server. FOS has no backend. No one can read your financial data — including us.<br><br><strong>Export a backup regularly</strong> from Settings → Export data. Your exported file is the complete source of truth — import it on any browser, any device, any time to restore everything.",
+    tip: "Ready to set up? The Dashboard has setup cards for each section. Work through them in order — Accounts first, then Register, then Envelopes. Everything else builds on those three.",
+    isLast: true,
+    screen: "dashboard"
   }
 ]
 
@@ -8650,6 +8701,24 @@ function existingUser() {
   document.getElementById('welcome-overlay').style.display = 'none';
   localStorage.setItem('fos_onboarded', '1');
   nav('dashboard');
+}
+
+function existingUserImport() {
+  // Hide welcome screen first
+  document.getElementById('welcome-overlay').style.display = 'none';
+  localStorage.setItem('fos_onboarded', '1');
+  nav('dashboard');
+  // Use mConfirm so user clicks OK = direct gesture = file picker allowed
+  setTimeout(function() {
+    mConfirm(
+      'Welcome back!\n\nClick OK to select your FOS backup file (.json) and restore your data.',
+      function() { importData(); },
+      function() {
+        // Cancelled - just stay on dashboard with empty state
+        mAlert('No problem. You can import a backup anytime from Settings → Import data.');
+      }
+    );
+  }, 250);
 }
 
 function startTour() {
@@ -8668,7 +8737,7 @@ function skipTour() {
 
 function tourNext() {
   if (TOUR_STEP >= TOUR_SLIDES.length - 1) {
-    // Last slide — go to dashboard
+    // Last slide — close tour, go to dashboard
     document.getElementById('tour-overlay').style.display = 'none';
     localStorage.setItem('fos_onboarded', '1');
     nav('dashboard');
@@ -8703,13 +8772,17 @@ function renderTourSlide() {
   var slideEl = document.getElementById('tour-slide');
   if (slideEl) {
     slideEl.innerHTML =
-      '<div style="font-size:40px;margin-bottom:16px;text-align:center">' + slide.icon + '</div>' +
-      '<div style="font-size:18px;font-weight:700;margin-bottom:12px;text-align:center;color:var(--text)">' + slide.title + '</div>' +
-      '<div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:16px">' + slide.body + '</div>' +
-      '<div style="background:var(--blue-bg);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--blue-txt);line-height:1.5">' +
+      '<div style="font-size:40px;margin-bottom:12px;text-align:center">' + slide.icon + '</div>' +
+      '<div style="font-size:17px;font-weight:700;margin-bottom:10px;text-align:center;color:var(--text);line-height:1.3">' + slide.title + '</div>' +
+      '<div style="font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:14px">' + slide.body + '</div>' +
+      '<div style="background:var(--blue-bg);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--blue-txt);line-height:1.5;margin-bottom:12px">' +
         '<strong>💡</strong> ' + slide.tip +
       '</div>' +
-      '<div style="text-align:center;margin-top:16px;font-size:11px;color:var(--text3)">' + (TOUR_STEP + 1) + ' of ' + total + '</div>';
+      (slide.isLast ?
+        '<div style="background:var(--green-bg);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--green-txt);text-align:center;font-weight:600">✓ You are ready to start! Click \'Take me to the app\' to open your dashboard.</div>' :
+        '<div style="text-align:center"><button onclick="skipTour();nav(&quot;'+slide.screen+'&quot;)" style="background:none;border:none;font-size:11px;color:var(--blue-txt);cursor:pointer;text-decoration:underline;padding:2px 6px">Skip tour — take me to ' + slide.title.split('\u2014')[0].trim() + ' now \u2192</button></div>'
+      ) +
+      '<div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text3)">' + (TOUR_STEP + 1) + ' of ' + total + '</div>';
   }
 
   // Back button
@@ -8732,15 +8805,6 @@ function checkFirstLaunch() {
 const WIZ_STEPS = ['profile','accounts','sheets','done'];
 let wizStep = 0;
 let wizData = {};
-
-function checkFirstLaunch(){
-  const done = localStorage.getItem('fos_onboarded');
-  if (!done) {
-    // First time ever — show welcome explainer then wizard
-    setTimeout(startWizard, 400);
-  }
-  // If done — just load dashboard normally, no interruption
-}
 
 function startWizard(){
   wizStep = 0; wizData = {};
@@ -9775,26 +9839,37 @@ QUICK_HELP['retirement'] = {
 </div>
 
 <!-- WELCOME SCREEN (first time only) -->
-<div id="welcome-overlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column">
-  <div style="max-width:480px;width:100%;padding:32px 24px;text-align:center">
-    <div style="font-size:36px;margin-bottom:12px">💰</div>
-    <div style="font-size:24px;font-weight:700;margin-bottom:6px;color:var(--text)">Welcome to FOS</div>
-    <div style="font-size:14px;color:var(--text2);margin-bottom:8px;line-height:1.6">My Personal Finance OS</div>
-    <div style="font-size:13px;color:var(--text2);margin-bottom:32px;line-height:1.7">A private, browser-based finance app. Your data lives in your own Google Sheet — no accounts, no servers, no subscriptions.</div>
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
-      <button class="btn btn-primary" style="padding:14px;font-size:15px;font-weight:600" onclick="startTour()">
-        👋 New here — show me around
+<div id="welcome-overlay" style="display:none;position:fixed;inset:0;background:#fff;background:var(--bg);z-index:2000;align-items:center;justify-content:center;flex-direction:column;padding:20px">
+  <div style="max-width:520px;width:100%">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:42px;letter-spacing:-2px;color:var(--text);line-height:1;margin-bottom:6px">F<span style="color:var(--blue)">O</span>S</div>
+      <div style="font-size:12px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-family:monospace">Finance Operating System</div>
+    </div>
+    <!-- Pitch -->
+    <div style="background:var(--bg2);border-radius:12px;padding:20px 22px;margin-bottom:24px;border:1px solid var(--border)">
+      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px">Your money. Finally clear.</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">FOS is a complete personal finance OS — envelope budgeting, net worth tracking, retirement planning, and more. Everything lives in your browser. No account. No server. No one reading your data.</div>
+    </div>
+    <!-- Two paths -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+      <button onclick="startTour()" style="background:var(--blue);color:#fff;border:none;border-radius:10px;padding:20px 16px;cursor:pointer;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+        <div style="font-size:22px;margin-bottom:8px">👋</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px;font-family:var(--font)">New to FOS</div>
+        <div style="font-size:12px;opacity:.8;line-height:1.5;font-family:var(--font)">Walk me through each section, then help me get set up</div>
       </button>
-      <button class="btn" style="padding:14px;font-size:14px" onclick="existingUser()">
-        ✓ Already set up — take me in
+      <button onclick="existingUserImport()" style="background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:20px 16px;cursor:pointer;text-align:left;transition:all .15s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
+        <div style="font-size:22px;margin-bottom:8px">📁</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px;font-family:var(--font)">Returning user</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;font-family:var(--font)">I have a backup file — import my data and take me in</div>
       </button>
     </div>
-    <div style="font-size:11px;color:var(--text3)">FOS Beta · Your financial data never leaves your device</div>
+    <div style="text-align:center;font-size:11px;color:var(--text3)">FOS v1.0 · φως · Your financial data never leaves your device</div>
   </div>
 </div>
 
 <!-- PLATFORM TOUR (slides) -->
-<div id="tour-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2001;align-items:center;justify-content:center">
+<div id="tour-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2001;align-items:center;justify-content:center">
   <div style="background:var(--bg);border-radius:16px;max-width:540px;width:calc(100% - 32px);max-height:88vh;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.2);display:flex;flex-direction:column">
     <!-- Progress dots -->
     <div style="padding:20px 24px 0;display:flex;gap:6px;justify-content:center" id="tour-dots"></div>
@@ -9909,9 +9984,10 @@ function logRecurring(id){
 }
 function deleteRecurring(id){
   mDanger('Delete this recurring template?', function(){
-  S.recurring=S.recurring.filter(function(x){return x.id!==id;});
-  localStorage.setItem("fos_recurring",JSON.stringify(S.recurring));
-  renderRecurring();
+    S.recurring=S.recurring.filter(function(x){return x.id!==id;});
+    localStorage.setItem("fos_recurring",JSON.stringify(S.recurring));
+    renderRecurring();
+  });
 }
 </script>
 <!-- Quick Help Drawer -->
