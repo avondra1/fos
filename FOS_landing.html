@@ -531,13 +531,32 @@ function toggleFAQ(el){
   document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});
   if(!wasOpen) el.classList.add('open');
 }
-function handleWaitlist(e){
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuiX_DVV3xAP7_Mt2ABesHFPsFUHaKJrpyWtfSSIiD87xnTekFHE2jvz6JhZPH4JIFbg/exec';
+
+async function handleWaitlist(e) {
   e.preventDefault();
-  var email=document.getElementById('waitlist-email').value;
-  // TODO: connect to email provider
-  console.log('Waitlist signup:',email);
-  document.getElementById('waitlist-email').value='';
-  document.getElementById('waitlist-confirm').style.display='block';
+  var email = document.getElementById('waitlist-email').value.trim();
+  var btn = e.target.querySelector('.waitlist-btn');
+  var confirm = document.getElementById('waitlist-confirm');
+  if (!email) return;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    document.getElementById('waitlist-email').value = '';
+    confirm.style.display = 'block';
+    confirm.textContent = '✓ Check your inbox — your download link is on its way.';
+    btn.style.display = 'none';
+  } catch (err) {
+    btn.textContent = 'Notify me →';
+    btn.disabled = false;
+    confirm.style.display = 'block';
+    confirm.textContent = 'Something went wrong. Email andrewvondra@gmail.com directly.';
+  }
 }
 window.addEventListener('scroll',function(){
   var pos=window.scrollY+80;
