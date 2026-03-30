@@ -541,22 +541,20 @@ async function handleWaitlist(e) {
   if (!email) return;
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email })
-    });
+  // Use no-cors — request goes through even though we can't read the response
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  });
+  // Show success immediately — the request is firing
+  setTimeout(function() {
     document.getElementById('waitlist-email').value = '';
     confirm.style.display = 'block';
     confirm.textContent = '✓ Check your inbox — your download link is on its way.';
     btn.style.display = 'none';
-  } catch (err) {
-    btn.textContent = 'Notify me →';
-    btn.disabled = false;
-    confirm.style.display = 'block';
-    confirm.textContent = 'Something went wrong. Email andrewvondra@gmail.com directly.';
-  }
+  }, 800);
 }
 window.addEventListener('scroll',function(){
   var pos=window.scrollY+80;
