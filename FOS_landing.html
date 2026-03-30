@@ -537,22 +537,21 @@ async function handleWaitlist(e) {
   e.preventDefault();
   var email = document.getElementById('waitlist-email').value.trim();
   var btn = e.target.querySelector('.waitlist-btn');
-  var confirm = document.getElementById('waitlist-confirm');
+  var confirmEl = document.getElementById('waitlist-confirm');
   if (!email) return;
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  // Use no-cors — request goes through even though we can't read the response
+  // text/plain avoids CORS preflight — works with no-cors mode
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email: email })
   });
-  // Show success immediately — the request is firing
   setTimeout(function() {
     document.getElementById('waitlist-email').value = '';
-    confirm.style.display = 'block';
-    confirm.textContent = '✓ Check your inbox — your download link is on its way.';
+    confirmEl.style.display = 'block';
+    confirmEl.textContent = '✓ You\'re on the list — check your inbox shortly.';
     btn.style.display = 'none';
   }, 800);
 }
