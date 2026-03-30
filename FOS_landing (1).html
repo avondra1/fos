@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOS — Finance Operating System</title>
+<meta name="description" content="FOS — Finance Operating System. Your personal finance OS. Local-first, private, honest. Envelope budgeting, net worth, retirement planning — your data never leaves your device.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Lora:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111118;
+  --ink2: #44444F;
+  --ink3: #88889A;
+  --paper: #F9F7F4;
+  --paper2: #F0EDE8;
+  --paper3: #E4E0D8;
+  --indigo: #4338CA;
+  --indigo2: #6366F1;
+  --indigo-bg: #EEF2FF;
+  --amber: #F59E0B;
+  --teal: #0D9488;
+  --line: rgba(17,17,24,.09);
+  --r: 6px; --rl: 12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;background:rgba(249,247,244,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:100;padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-mark{display:flex;align-items:center}
+.nav-logo-wordmark{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;letter-spacing:-1px;color:var(--ink);line-height:1}
+.nav-logo-wordmark span{color:var(--indigo)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ink2);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.btn-nav{background:var(--ink);color:#fff;padding:8px 20px;border-radius:var(--r);font-size:13px;font-weight:600;text-decoration:none;transition:opacity .15s;letter-spacing:-.2px}
+.btn-nav:hover{opacity:.82;color:#fff}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:112px 48px 80px}
+.hero-inner{max-width:1140px;margin:0 auto;width:100%}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--indigo2);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:12px;opacity:0;animation:fade-up .5s .1s ease forwards}
+.eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--indigo2)}
+h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(48px,7vw,90px);line-height:1.02;color:var(--ink);margin-bottom:28px;letter-spacing:-3px;max-width:860px;opacity:0;animation:fade-up .55s .2s ease forwards}
+h1 em{font-style:italic;color:var(--indigo);font-weight:800}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--ink2);max-width:520px;line-height:1.65;margin-bottom:44px;font-weight:300;opacity:0;animation:fade-up .55s .3s ease forwards}
+.hero-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:56px;opacity:0;animation:fade-up .55s .4s ease forwards}
+.btn-primary{background:var(--indigo);color:#fff;padding:14px 28px;border-radius:var(--r);font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 2px 12px rgba(67,56,202,.3);letter-spacing:-.2px}
+.btn-primary:hover{background:#3730A3;box-shadow:0 4px 20px rgba(67,56,202,.45)}
+.btn-ghost{color:var(--ink);font-size:13px;font-weight:500;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color .15s}
+.btn-ghost:hover{border-color:var(--ink)}
+.hero-proof{display:flex;gap:32px;flex-wrap:wrap;opacity:0;animation:fade-up .55s .5s ease forwards}
+.proof-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3)}
+.proof-dot{width:5px;height:5px;border-radius:50%;background:var(--indigo2);flex-shrink:0}
+
+/* ── SPECTRUM BAR ── */
+.spectrum-bar{height:3px;background:linear-gradient(to right,#7C3AED,#3B82F6,#06B6D4,#10B981,#F59E0B);opacity:.3}
+
+/* ── CLARITY BAR ── */
+.clarity-bar{background:var(--ink);color:rgba(255,255,255,.85);padding:14px 48px;font-size:13px;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.clarity-bar span{display:flex;align-items:center;gap:8px}
+.clarity-bar strong{color:#fff}
+
+/* ── SECTIONS ── */
+section{padding:88px 48px}
+.section-inner{max-width:1140px;margin:0 auto}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--indigo2);margin-bottom:14px}
+h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(30px,4.5vw,50px);line-height:1.1;color:var(--ink);margin-bottom:16px;letter-spacing:-1.5px}
+.section-sub{font-size:16px;color:var(--ink2);max-width:500px;line-height:1.7;font-weight:300}
+
+/* ── FEATURE GRID ── */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--rl);overflow:hidden;margin-top:48px}
+.feature-card{background:var(--paper);transition:background .2s;cursor:pointer;position:relative}
+.feature-card:hover{background:var(--paper2)}
+.feature-card.open{background:var(--indigo-bg)}
+.feature-card-header{padding:28px 26px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.feature-card-header-left{flex:1}
+.feature-icon{font-size:22px;margin-bottom:14px;display:block}
+.feature-name{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--ink);letter-spacing:-.2px}
+.feature-desc{font-size:13px;color:var(--ink2);line-height:1.6}
+.feature-toggle{width:22px;height:22px;border-radius:50%;background:var(--paper2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .2s;font-size:13px;color:var(--ink3)}
+.feature-card.open .feature-toggle{background:var(--indigo);color:#fff;transform:rotate(45deg)}
+.feature-expand{display:none;padding:0 26px 28px;border-top:1px solid var(--line)}
+.feature-card.open .feature-expand{display:block}
+.feature-card.open .feature-card-header{padding-bottom:20px}
+.expand-section{margin-top:20px}
+.expand-section:first-child{margin-top:0;padding-top:20px}
+.expand-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--indigo2);margin-bottom:7px}
+.expand-body{font-size:13px;color:var(--ink2);line-height:1.7;font-weight:300}
+.expand-body strong{color:var(--ink);font-weight:600}
+
+/* ── PRIVACY ── */
+.privacy-section{background:var(--paper2)}
+.privacy-pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+.pillar{border:1px solid var(--paper3);border-radius:var(--rl);padding:28px;background:var(--paper)}
+.pillar-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);margin-bottom:10px}
+.pillar-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:19px;color:var(--ink);margin-bottom:10px;letter-spacing:-.3px}
+.pillar-body{font-size:13px;color:var(--ink2);line-height:1.7}
+
+/* ── WHAT'S NEXT ── */
+.next-section{background:var(--ink)}
+.next-section .section-label{color:rgba(255,255,255,.3)}
+.next-section h2{color:#fff}
+.next-section .section-sub{color:rgba(255,255,255,.5);max-width:460px}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:var(--rl);overflow:hidden;margin-top:48px}
+.roadmap-item{padding:28px 26px;background:rgba(255,255,255,.03)}
+.roadmap-status{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:inline-block;padding:3px 10px;border-radius:20px}
+.status-live{background:rgba(16,185,129,.2);color:#6EE7B7}
+.status-coming{background:rgba(255,255,255,.06);color:rgba(255,255,255,.35)}
+.roadmap-name{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;letter-spacing:-.2px}
+.roadmap-desc{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+
+/* ── WAITLIST ── */
+.waitlist-section{padding:80px 48px;background:var(--indigo)}
+.waitlist-inner{max-width:580px;margin:0 auto;text-align:center}
+.waitlist-section .section-label{color:rgba(255,255,255,.35);text-align:center}
+.waitlist-section h2{color:#fff;margin-bottom:12px}
+.waitlist-sub{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:32px;line-height:1.65;font-weight:300}
+.waitlist-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.waitlist-input{flex:1;min-width:220px;padding:12px 16px;border-radius:var(--r);border:1px solid rgba(255,255,255,.2);font-size:14px;font-family:'Outfit',sans-serif;background:rgba(255,255,255,.12);color:#fff;outline:none;transition:border-color .15s}
+.waitlist-input::placeholder{color:rgba(255,255,255,.4)}
+.waitlist-input:focus{border-color:rgba(255,255,255,.5)}
+.waitlist-btn{padding:12px 24px;background:#fff;color:var(--indigo);border:none;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;transition:opacity .15s;letter-spacing:-.2px}
+.waitlist-btn:hover{opacity:.9}
+.waitlist-confirm{display:none;margin-top:16px;color:rgba(255,255,255,.9);font-size:14px}
+
+/* ── FAQ ── */
+.faq-section{background:var(--paper2)}
+.faq-list{margin-top:40px}
+.faq-item{border-bottom:1px solid var(--paper3);padding:20px 0;cursor:pointer}
+.faq-item:first-child{border-top:1px solid var(--paper3)}
+.faq-q{font-size:15px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px;user-select:none;letter-spacing:-.2px}
+.faq-arrow{font-size:20px;color:var(--ink3);transition:transform .2s;flex-shrink:0;font-weight:300}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--ink2);line-height:1.75;padding-top:12px;display:none;font-weight:300;max-width:680px}
+.faq-item.open .faq-a{display:block}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:40px 48px;font-size:12px}
+.footer-inner{max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{display:flex;align-items:center;gap:10px}
+.footer-logo-word{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;letter-spacing:-1px;color:rgba(255,255,255,.8)}
+.footer-logo-word span{color:var(--indigo2)}
+footer p{color:rgba(255,255,255,.35);line-height:1.8}
+footer a{color:rgba(255,255,255,.35);text-decoration:none}
+footer a:hover{color:rgba(255,255,255,.65)}
+
+/* ── ANIMATIONS ── */
+@keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .nav-links a:not(.btn-nav){display:none}
+  .hero{padding:96px 20px 64px}
+  section{padding:64px 20px}
+  .waitlist-section{padding:64px 20px}
+  .clarity-bar{padding:12px 20px;gap:20px;font-size:12px}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .privacy-pillars{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .feature-grid{grid-template-columns:1fr}
+  .hero-proof{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">
+      <svg width="26" height="26" viewBox="0 0 88 88" fill="none">
+        <path d="M44 6L81 78H7L44 6Z" stroke="#111118" stroke-width="3" stroke-linejoin="round" fill="none"/>
+        <line x1="44" y1="6" x2="44" y2="44" stroke="#4338CA" stroke-width="1.4" opacity="0.4"/>
+        <line x1="44" y1="44" x2="18" y2="78" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="28" y2="78" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="44" y2="78" stroke="#06B6D4" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+        <line x1="44" y1="44" x2="60" y2="78" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="70" y2="78" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="44" cy="44" r="3" fill="#4338CA"/>
+      </svg>
+    </div>
+    <div class="nav-logo-wordmark">F<span>O</span>S</div>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#coming-next">What's next</a>
+    <a href="FOS_app.html" style="font-size:13px;font-weight:500;color:var(--ink2);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink2)'">Open app ↗</a>
+    <a href="#waitlist" class="btn-nav">Stay in the loop →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Finance Operating System</div>
+    <h1>Your money.<br>Finally <em>clear.</em></h1>
+    <p class="hero-sub">A complete personal finance OS — envelope budgeting, net worth, retirement planning — that lives entirely on your device. No account. No servers. No one reading your data.</p>
+    <div class="hero-cta">
+      <a href="#waitlist" class="btn-primary">Stay in the loop →</a>
+      <a href="FOS_app.html" class="btn-ghost">Try the app ↗</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item"><span class="proof-dot"></span>No account required</div>
+      <div class="proof-item"><span class="proof-dot"></span>Works offline</div>
+      <div class="proof-item"><span class="proof-dot"></span>Open any browser</div>
+      <div class="proof-item"><span class="proof-dot"></span>Export your data anytime</div>
+    </div>
+  </div>
+</div>
+
+<div class="spectrum-bar"></div>
+
+<!-- CLARITY BAR -->
+<div class="clarity-bar">
+  <span>🔒 <strong>Zero telemetry.</strong> No analytics on your spending.</span>
+  <span>🏠 <strong>Local-first.</strong> Data never leaves your device.</span>
+  <span>📁 <strong>You own it.</strong> Export everything, anytime.</span>
+  <span>💳 <strong>Revenue from subscriptions,</strong> not your data.</span>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label">What's included</div>
+    <h2>Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-sub">Every feature, fully unlocked. No paywalls, no upgrade prompts, no feature held back to sell you something.</p>
+    <div class="feature-grid">
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">📦</span>
+            <div class="feature-name">Envelope Budgeting</div>
+            <div class="feature-desc">Assign every dollar a job before you spend it.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Most budgeting fails because you react to spending instead of planning it. By the time you check your balance, the damage is done. Envelope budgeting flips this — you decide where money goes <strong>before</strong> you spend it. Every dollar has a job. Nothing drifts.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Create envelopes for each spending category — Rent, Groceries, Gas, Dining. When your paycheck arrives, use the Paycheck Allocator to fund each one. When you log a transaction, tag it to an envelope and its balance decreases in real time. When an envelope hits zero, you know exactly why.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">💌</span>
+            <div class="feature-name">Paycheck Allocator</div>
+            <div class="feature-desc">Split your paycheck across envelopes in one step.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Getting paid without a plan means money drifts toward whatever's in front of you. The allocator forces a deliberate moment every payday: <strong>this dollar goes here, not there.</strong> It's the difference between a budget you follow and one you forget about by Thursday.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Enter your take-home amount and select the account it landed in. FOS suggests splits based on your envelope monthly budgets. Adjust any amount. Watch the unallocated counter tick toward $0. Hit Apply — the deposit is logged and every envelope is funded in one step.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">📊</span>
+            <div class="feature-name">Net Worth Tracking</div>
+            <div class="feature-desc">The one number that shows if you're actually building wealth.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Income and spending tell you the short story. Net worth tells you the long one. It's the only number that shows whether you're actually building wealth or just moving money around. A growing net worth means you're winning — regardless of how the month felt.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">All your accounts — checking, savings, retirement, investment, debt — contribute to a live net worth total. Log a snapshot periodically and FOS builds a trend chart over time. Avalanche and snowball debt payoff projections show you the fastest path to zero.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">🏦</span>
+            <div class="feature-name">Transaction Register</div>
+            <div class="feature-desc">Every transaction written down. Reconcilable. Honest.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">You can't manage what you don't track. A register is the source of truth — the way people balanced checkbooks before apps existed. It still works because it's honest: every transaction in, every transaction out, a running balance you can check against your bank statement.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Add transactions manually or import directly from a bank CSV. Running balance calculated automatically per account. Reconcile monthly against your statement — any difference gets flagged so you find missing transactions or post an adjustment. Bank CSV import auto-detects columns and skips duplicates.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">🎯</span>
+            <div class="feature-name">Goals & Planning</div>
+            <div class="feature-desc">Saving without a target is just hoping.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">A goal turns vague intentions into math. "I should save more" becomes "I need $340/month to hit this by next October." That specificity changes behavior. A progress bar you can see every time you open the app is surprisingly motivating.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Create goals with target amounts and dates — house down payment, emergency fund, vacation. Link to an account or envelope. FOS calculates the monthly contribution needed, shows a progress bar, and tells you if you're on track. Goals feed into the retirement screen for the full long-range picture.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">🏠</span>
+            <div class="feature-name">Retirement Planner</div>
+            <div class="feature-desc">Most people have no idea if they're on track. Now you will.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Retirement is the biggest financial project most people ever undertake — and the most ignored. The math is counterintuitive: small decisions compounding over decades matter enormously. Most apps don't touch this. FOS does, because your finances don't stop at this month's budget.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Enter your age, retirement age, current balances, and expected return. FOS runs a Monte Carlo simulation — thousands of scenarios — showing you the probability-weighted range of outcomes. FIRE calculator, 2025 contribution limits, priority stack (401k match → HSA → IRA → taxable), and Roth conversion analysis are all built in.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">📈</span>
+            <div class="feature-name">Portfolio & Assets</div>
+            <div class="feature-desc">Your full financial picture — not just your bank balance.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Net worth from bank accounts alone is incomplete. Your home, investment holdings, vehicle — they're real parts of your financial picture. Ignoring them gives a distorted view of where you actually stand. Your wealth is the sum of everything you own minus everything you owe.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Add investment holdings with ticker symbols, share counts, and cost basis. Add physical assets — home with appreciation rate and mortgage equity, vehicle with auto depreciation curve. FOS calculates your true complete net worth, allocation by asset class, and liquidity tier breakdown.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">🔄</span>
+            <div class="feature-name">Recurring Templates</div>
+            <div class="feature-desc">One-click logging for bills that happen every month.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Bills that repeat every month shouldn't require re-entering every month — but silently auto-adding them is worse, because you lose visibility. Templates give you the best of both: one-click speed with full awareness. You still log it. You just don't have to rebuild it from scratch every time.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Create a template for each recurring bill — rent, car payment, phone, subscriptions. Set the amount, account, category, envelope, and due day. Each month, your templates show what's due. One click logs the transaction to the register with everything pre-filled. Change the amount if it varies.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card" onclick="toggleFeature(this)">
+        <div class="feature-card-header">
+          <div class="feature-card-header-left">
+            <span class="feature-icon">💊</span>
+            <div class="feature-name">Benefits & Decisions</div>
+            <div class="feature-desc">Run the numbers on the decisions most people just guess at.</div>
+          </div>
+          <div class="feature-toggle">+</div>
+        </div>
+        <div class="feature-expand">
+          <div class="expand-section">
+            <div class="expand-label">Why it matters</div>
+            <div class="expand-body">Open enrollment happens once a year and most people pick the same plan they had before. But health plan choice, 401k contribution rate, and HSA vs FSA decisions have enormous financial consequences — often thousands of dollars — that almost nobody actually calculates. FOS gives you the tools to run the real numbers.</div>
+          </div>
+          <div class="expand-section">
+            <div class="expand-label">How it works in FOS</div>
+            <div class="expand-body">Compare two health plans by entering premiums, deductibles, and expected costs — FOS shows your break-even point and which plan wins for your situation. Optimize your 401k to capture full employer match. Model HSA vs FSA. Use the Loan vs Invest calculator to decide whether paying off debt beats investing the same dollar.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section id="privacy" class="privacy-section">
+  <div class="section-inner">
+    <div class="section-label">How it works</div>
+    <h2>Privacy isn't a feature.<br>It's the architecture.</h2>
+    <p class="section-sub">Most finance apps treat your spending data as a product. We treat it as yours — technically, not just in the terms of service.</p>
+    <div class="privacy-pillars">
+      <div class="pillar"><div class="pillar-num">01</div><div class="pillar-title">Local-first, always</div><div class="pillar-body">Your transactions, balances, and history live in your browser's local storage. No server receives them. No database stores them. No breach can expose them. The app has no backend.</div></div>
+      <div class="pillar"><div class="pillar-num">02</div><div class="pillar-title">You own everything</div><div class="pillar-body">Export all your data anytime as a portable file. Import it back on any device, any browser. Nothing is held hostage. If you ever leave, you take everything with you.</div></div>
+      <div class="pillar"><div class="pillar-num">03</div><div class="pillar-title">No accounts, no tracking</div><div class="pillar-body">There's no login. No profile. No analytics on what screens you visit or how you budget. Zero telemetry on your financial behavior. Open the file and it works.</div></div>
+      <div class="pillar"><div class="pillar-num">04</div><div class="pillar-title">Honest about what's coming</div><div class="pillar-body">Future versions will add cloud sync and bank connections. When they do, encryption happens on your device before anything leaves it. We'll store ciphertext we cannot read.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section id="coming-next" class="next-section">
+  <div class="section-inner">
+    <div class="section-label">On the horizon</div>
+    <h2 style="color:#fff">Built for today.<br>Designed for more.</h2>
+    <p class="section-sub">What's live now is the foundation. Here's where it's going — without compromising the privacy model.</p>
+    <div class="roadmap">
+      <div class="roadmap-item"><span class="roadmap-status status-live">Live now</span><div class="roadmap-name">Full offline app</div><div class="roadmap-desc">Every feature works with no internet. Your data lives in your browser, period.</div></div>
+      <div class="roadmap-item"><span class="roadmap-status status-live">Live now</span><div class="roadmap-name">Bank CSV import</div><div class="roadmap-desc">Download a CSV from your bank and import directly. Auto-detects columns, skips duplicates.</div></div>
+      <div class="roadmap-item"><span class="roadmap-status status-live">Live now</span><div class="roadmap-name">Export & restore</div><div class="roadmap-desc">Full data export anytime. Restore on any device from your backup. Never locked in.</div></div>
+      <div class="roadmap-item"><span class="roadmap-status status-coming">Coming</span><div class="roadmap-name">Encrypted cloud sync</div><div class="roadmap-desc">Backup and sync across devices. Encrypted on your device before it touches a server.</div></div>
+      <div class="roadmap-item"><span class="roadmap-status status-coming">Coming</span><div class="roadmap-name">Bank connections</div><div class="roadmap-desc">Automatic transaction import. Privacy-first — connection credentials stay with you.</div></div>
+      <div class="roadmap-item"><span class="roadmap-status status-coming">Coming</span><div class="roadmap-name">Mobile & multi-device</div><div class="roadmap-desc">Log on the go. Full sync across phone and desktop without compromising your data.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<div class="waitlist-section" id="waitlist">
+  <div class="waitlist-inner">
+    <div class="section-label">Stay in the loop</div>
+    <h2>Be first to know<br>when things ship.</h2>
+    <p class="waitlist-sub">Leave your email and we'll let you know when new features land. No spam. No marketing cadence. Just a note when something real is ready.</p>
+    <form class="waitlist-form" onsubmit="handleWaitlist(event)">
+      <input type="email" id="waitlist-email" class="waitlist-input" placeholder="your@email.com" required/>
+      <button type="submit" class="waitlist-btn">Notify me →</button>
+    </form>
+    <div class="waitlist-confirm" id="waitlist-confirm">✓ You're on the list — we'll be in touch.</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq" class="faq-section">
+  <div class="section-inner">
+    <div class="section-label">Questions</div>
+    <h2>Things people ask</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">Where exactly is my data stored?<span class="faq-arrow">+</span></div><div class="faq-a">In your browser's local storage — a private area built into every modern browser. It never leaves your device. FOS has no server that receives your financial data. The only optional network request is for live stock prices, which requires an API key you control.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">What if I clear my browser or switch computers?<span class="faq-arrow">+</span></div><div class="faq-a">FOS reminds you to export a backup regularly. Your exported file is the source of truth — import it any time to fully restore everything on any browser, any computer. Think of it like a document: save the file and you're safe.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">Do I need to install anything?<span class="faq-arrow">+</span></div><div class="faq-a">No installation. FOS is a single HTML file that opens in any modern browser — Chrome, Firefox, Safari, Edge. Just open it and it works. No extensions, no accounts, no setup that requires a Google login.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">How do I get my bank transactions in?<span class="faq-arrow">+</span></div><div class="faq-a">Go to your bank's website and download transactions as a CSV — most banks call it "Export" or "Download transactions." Then in FOS, open Register → Import CSV. The importer detects your columns automatically and shows a preview before committing. Works with Chase, Bank of America, Wells Fargo, Ally, and most standard bank formats.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">What is envelope budgeting?<span class="faq-arrow">+</span></div><div class="faq-a">Envelope budgeting means assigning every dollar of income to a specific purpose before you spend it — Rent, Groceries, Car, Savings. When an envelope runs out, you stop spending in that category, or consciously move money from another. It's consistently the most effective budgeting method because it makes tradeoffs visible and forces intentional decisions.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">What's coming and when?<span class="faq-arrow">+</span></div><div class="faq-a">Encrypted cloud sync, automatic bank connections, and mobile support are on the roadmap. We won't ship the sync features until the encryption model is right — data will be encrypted on your device before it ever leaves. Sign up above and we'll let you know when things are ready.</div></div>
+      <div class="faq-item" onclick="toggleFAQ(this)"><div class="faq-q">Can I use this for my whole household?<span class="faq-arrow">+</span></div><div class="faq-a">Yes. FOS supports multiple accounts and you can name everything however you like. For fully separate tracking between two people, use separate browser profiles — each has its own local storage. Household and family features are on the roadmap.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="22" height="22" viewBox="0 0 88 88" fill="none">
+        <path d="M44 6L81 78H7L44 6Z" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linejoin="round" fill="none"/>
+        <line x1="44" y1="44" x2="18" y2="78" stroke="#C4B5FD" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="28" y2="78" stroke="#93C5FD" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="44" y2="78" stroke="#67E8F9" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+        <line x1="44" y1="44" x2="60" y2="78" stroke="#6EE7B7" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="44" y1="44" x2="70" y2="78" stroke="#FCD34D" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="44" cy="44" r="2.8" fill="#A5B4FC"/>
+      </svg>
+      <div class="footer-logo-word">F<span>O</span>S</div>
+    </div>
+    <div style="text-align:right;line-height:2">
+      <p style="margin-bottom:4px">Questions? <a href="mailto:hello@getfos.app" style="color:rgba(255,255,255,.35)">hello@getfos.app</a></p>
+      <p style="margin-bottom:6px;font-size:11px;color:rgba(255,255,255,.25)">Finance Operating System · v1.0 · φως · Not financial advice.</p>
+      <div style="display:flex;gap:16px;justify-content:flex-end">
+        <a href="FOS_app.html" style="font-size:11px;color:rgba(255,255,255,.35);text-decoration:none" onmouseover="this.style.color='rgba(255,255,255,.65)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Open App ↗</a>
+        <a href="FOS_privacy.html" style="font-size:11px;color:rgba(255,255,255,.35);text-decoration:none" onmouseover="this.style.color='rgba(255,255,255,.65)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Privacy Policy</a>
+        <a href="FOS_terms.html" style="font-size:11px;color:rgba(255,255,255,.35);text-decoration:none" onmouseover="this.style.color='rgba(255,255,255,.65)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFeature(card){
+  var wasOpen = card.classList.contains('open');
+  // Close all others
+  document.querySelectorAll('.feature-card.open').forEach(function(c){ c.classList.remove('open'); });
+  // Toggle this one
+  if(!wasOpen) card.classList.add('open');
+}
+
+function toggleFAQ(el){
+  var wasOpen=el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});
+  if(!wasOpen) el.classList.add('open');
+}
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuiX_DVV3xAP7_Mt2ABesHFPsFUHaKJrpyWtfSSIiD87xnTekFHE2jvz6JhZPH4JIFbg/exec';
+
+async function handleWaitlist(e) {
+  e.preventDefault();
+  var email = document.getElementById('waitlist-email').value.trim();
+  var btn = e.target.querySelector('.waitlist-btn');
+  var confirm = document.getElementById('waitlist-confirm');
+  if (!email) return;
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    document.getElementById('waitlist-email').value = '';
+    confirm.style.display = 'block';
+    confirm.textContent = '✓ Check your inbox — your download link is on its way.';
+    btn.style.display = 'none';
+  } catch (err) {
+    btn.textContent = 'Notify me →';
+    btn.disabled = false;
+    confirm.style.display = 'block';
+    confirm.textContent = 'Something went wrong. Email andrewvondra@gmail.com directly.';
+  }
+}
+window.addEventListener('scroll',function(){
+  var pos=window.scrollY+80;
+  document.querySelectorAll('section[id],div[id]').forEach(function(s){
+    var link=document.querySelector('.nav-links a[href="#'+s.id+'"]');
+    if(!link) return;
+    if(s.offsetTop<=pos&&s.offsetTop+s.offsetHeight>pos){
+      document.querySelectorAll('.nav-links a').forEach(function(l){l.style.color='';});
+      link.style.color='var(--ink)';
+    }
+  });
+},{passive:true});
+</script>
+</body>
+</html>
